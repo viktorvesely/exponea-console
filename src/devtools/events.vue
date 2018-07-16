@@ -1,8 +1,8 @@
 <template>
     <div class="eventPage"> 
-      <input type='text' v-model='name'> 
-      <input type="text" v-model='filters.byName'>
-      <input type="checkbox" v-model='filters.showSessions'>
+      <input type='text' v-model='name' placeholder='Name'> 
+      <input type="text" v-model='filters.byName' placeholder='Filter'>
+      <input type="checkbox" v-model='filters.showSessions'> <span> Show session ping</span>
       <br> 
       <button @click='addEvent'>Add Event</button>
       <hr>
