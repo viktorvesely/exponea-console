@@ -14,7 +14,7 @@
       events: [],
       name: '',
       properties: [],
-      prop_model: { 'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'adawd': 2123, '231231': 333, '231da231': 333 } }
+      prop_model: { 'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi' } }
     }),
     computed: { },
     created () { },

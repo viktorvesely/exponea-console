@@ -1,11 +1,13 @@
 <template>
     <div :style='style' class='event'>
-        <div @click='expand' class="clickZone">
+        <div @click='expand' class='clickZone'>
           <span class='circle' :style='circleStyle'></span>
           <span class='name'>{{ event.name }}</span>
           <span class='timestamp'>{{ date }}</span>
         </div>
-        <exp-property v-if='rolledOut' :key='index' v-for='(p,index) in event.properties' :name='index' :value='p' ></exp-property>
+        <div class='properties' v-if='rolledOut'>
+           <exp-property v-if='rolledOut' :key='index' v-for='(p,index) in event.properties' :name='index' :value='p' ></exp-property>
+        </div>
     </div>
 </template>
 
@@ -45,6 +47,10 @@ export default {
 <style lang="scss" scoped>
     .clickZone {
       cursor: pointer;
+      padding-right: 15px;
+      padding-left: 15px;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
     .clickZone * {
       user-select: none;
@@ -53,13 +59,14 @@ export default {
       -khtml-user-select: none; 
       -ms-user-select: none; 
     }
+    .properties {
+      padding-right: 15px;
+      padding-left: 15px;
+      padding-bottom: 10px;
+    }
     .event {
         width: 99%;
         font-size: 17px;
-        padding-right: 15px;
-        padding-left: 15px;
-        padding-top: 10px;
-        padding-bottom: 10px;
     }
     .timestamp {
         color: #7477b0;
