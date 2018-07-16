@@ -1,5 +1,5 @@
 <template>
-    <div :style='style' class='event'>
+    <div class='event'>
         <div @click='expand' class='clickZone'>
           <span class='circle' :style='circleStyle'></span>
           <span class='name'>{{ event.name }}</span>
@@ -19,7 +19,6 @@ export default {
     return {
       colors: ['yellow', 'red', 'blue', 'limegreen', 'black', 'fuchsia', 'orange'],
       date: window.dateFormater.format(new Date(), 'MMM DD,YYYY HH:mm:ss'),
-      style: { backgroundColor: ['#FFFFFF', '#F8F7FD'][ this.size % 2 ] },
       rolledOut: false
     }
   },
@@ -85,5 +84,11 @@ export default {
         height: 4px;
         display: inline-block;
         margin-right: 10px;
+    }
+    .event:nth-child(odd) {
+      background-color: #F8F7FD;
+    }
+    .event:nth-child(even) {
+      background-color: #FFFFFF;
     }
 </style>

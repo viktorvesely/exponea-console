@@ -1,10 +1,14 @@
 <template>
     <div class="eventPage"> 
-      <input type='text' v-model='name'>
+      <input type='text' v-model='name'> 
+      <input type="text" v-model='filters.byName'>
+      <input type="checkbox" v-model='filters.showSessions'>
       <br> 
       <button @click='addEvent'>Add Event</button>
       <hr>
-      <exp-event :key='index' v-for='(e,index) in events' :event='e' :size='events.length'></exp-event>
+      <div class='events'>
+        <exp-event :key='index' v-for='(e,index) in events' :event='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && e.name.indexOf(filters.byName) === -1))'></exp-event>
+      </div>
     </div>
 </template>
 <script>
@@ -14,9 +18,18 @@
       events: [],
       name: '',
       properties: [],
-      prop_model: { 'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi' } }
+      prop_model: { 'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi' } },
+      filters: {
+        byName: '',
+        showSessions: false
+      },
+      sessionEventsNames: ['session_ping']
     }),
-    computed: { },
+    computed: {
+      shouldShow (name) {
+        return !((this.filters.showSessions === false && this.sessionEventsNames.includes(name)) || (!this.filters.byName && name.indexOf(this.filters.byName) !== -1))
+      }
+    },
     created () { },
     components: {
       'exp-event': event
@@ -42,4 +55,6 @@
     height: 100vh;
     max-height: 100vh;
   }
+
+  
 </style>
