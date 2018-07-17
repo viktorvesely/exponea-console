@@ -64,8 +64,9 @@ export default {
       padding-bottom: 10px;
     }
     .event {
-        width: 99%;
+        width: 100%;
         font-size: 17px;
+        box-sizing: border-box;
     }
     .timestamp {
         color: #7477b0;
