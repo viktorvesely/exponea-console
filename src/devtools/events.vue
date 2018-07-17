@@ -12,7 +12,7 @@
       </div>
       <div class='eventGui bottom'>
           <exp-toggle @onSwitch='updateSessionFilter'></exp-toggle>
-          <span> show Session events</span>
+          <span> Show Session events</span>
       </div>
     </div>
 </template>
@@ -81,6 +81,7 @@
     position: relative;
     top: 50%;
     margin-top: -15px;
+    outline: none;
   }
   .eventGui.top input:active {
     border: none;
@@ -106,9 +107,19 @@
     background-color: rgba(0,0,0,0);
   }
   .eventGui.bottom {
-    font-size: 18px;
+    font-size: 15px;
+    height: 28px;
+    font-family: Lato,sans-serif;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+  .eventGui.bottom * {
+    position: relative;
+    top: 4px;
   }
   .eventGui.bottom >>> .switch {
     margin-left: 10px;
+    position: relative;
+    top: 6px;
   }
 </style>
