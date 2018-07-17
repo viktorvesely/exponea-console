@@ -6,13 +6,14 @@
       <hr>
       <div class='eventGui top'>
         <input type="text" v-model='filters.byName' placeholder='Filter..'>
+        <i class='fa fa-search'></i>
       </div>
       <div class='events'>
         <exp-event :key='index' v-for='(e,index) in events' :event='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && e.name.indexOf(filters.byName) === -1))'></exp-event>
       </div>
       <div class='eventGui bottom'>
           <exp-toggle @onSwitch='updateSessionFilter'></exp-toggle>
-          <span> Show Session events</span>
+          <span> Show session events</span>
       </div>
     </div>
 </template>
@@ -82,6 +83,9 @@
     top: 50%;
     margin-top: -15px;
     outline: none;
+  }
+  .searchIcon::before {
+    content: '\E0C4';
   }
   .eventGui.top input:active {
     border: none;
