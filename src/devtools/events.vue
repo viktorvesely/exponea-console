@@ -5,8 +5,8 @@
       <button @click='addEvent'>Add Event</button>
       <hr>
       <div class='eventGui top'>
-        <input type="text" v-model='filters.byName' placeholder='Filter..'>
-        <i class='fa fa-search'></i>
+        <input type="text" class='filter' v-model='filters.byName' placeholder='Filter..'>
+        <icon name='search' class='searchIcon'></icon>
       </div>
       <div class='events'>
         <exp-event :key='index' v-for='(e,index) in events' :event='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && e.name.indexOf(filters.byName) === -1))'></exp-event>
@@ -73,9 +73,8 @@
   .eventGui.top {
     margin-top: 15px;
   }
-  .eventGui.top input {
-    height: 25px;
-    border: 0.1px gray solid;
+  .eventGui.top .filter {
+    height: 24px;
     border-color: transparent;
     font-size: 17px;
     padding-left: 8px;
@@ -83,9 +82,12 @@
     top: 50%;
     margin-top: -15px;
     outline: none;
+    background-color: transparent;
   }
-  .searchIcon::before {
-    content: '\E0C4';
+  .eventGui.top .searchIcon {
+    position: relative;
+    right: 40px;
+    top: 20px;
   }
   .eventGui.top input:active {
     border: none;
