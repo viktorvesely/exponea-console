@@ -18,7 +18,6 @@ export default {
   data: function () {
     return {
       colors: ['yellow', 'red', 'blue', 'limegreen', 'black', 'fuchsia', 'orange'],
-      date: window.dateFormater.format(new Date(), 'MMM DD,YYYY HH:mm:ss'),
       rolledOut: false
     }
   },
@@ -34,6 +33,9 @@ export default {
       var col = this.colors[sum % this.colors.length]
       var ret = { 'box-shadow': '0 0 0 3px ' + col + ', 0 0 0 3px ' + col }
       return ret
+    },
+    date () {
+      return window.dateFormater.format(new Date(this.event.timeStamp), 'MMM DD,YYYY HH:mm:ss')
     }
   },
   methods: {

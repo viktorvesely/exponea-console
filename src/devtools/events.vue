@@ -6,7 +6,7 @@
       <hr>
       <div class='eventGui top'>
         <input type="text" class='filter' v-model='filters.byName' placeholder='Filter..'>
-        <icon name='search' class='searchIcon'></icon>
+        <icon name='search' class='searchIcon' scale='0.9'></icon>
       </div>
       <div class='events'>
         <exp-event :key='index' v-for='(e,index) in events' :event='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && e.name.indexOf(filters.byName) === -1))'></exp-event>
@@ -47,6 +47,7 @@
       addEvent () {
         this.events.splice(0, 0, {
           name: this.name,
+          timeStamp: Date.now(),
           properties: this.prop_model
         })
       },
@@ -75,6 +76,7 @@
   }
   .eventGui.top .filter {
     height: 24px;
+    width: 110px;
     border-color: transparent;
     font-size: 17px;
     padding-left: 8px;
@@ -86,8 +88,8 @@
   }
   .eventGui.top .searchIcon {
     position: relative;
-    right: 40px;
-    top: 20px;
+    right: 1px;
+    top: 25px;
   }
   .eventGui.top input:active {
     border: none;
@@ -105,7 +107,6 @@
     overflow-y: auto;
     height: 80%;
     background-color: white;
-    border-top: 0.1px black solid;
     padding-top: 3px;
   }
   .events::-webkit-scrollbar {
