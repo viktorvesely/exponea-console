@@ -1,15 +1,17 @@
 <template>
     <div class="eventPage"> 
       <input type='text' v-model='name' placeholder='Name'> 
+      <input type='checkbox' v-model='isUpdate'>
+      <span> is update </span>
       <br>
       <button @click='addEvent'>Add Event</button>
       <hr>
       <div class='eventGui top'>
-        <input type="text" class='filter' v-model='filters.byName' placeholder='Filter..'>
+        <input type="text" class='filter' v-model='filters.byName' placeholder='Event filter..'>
         <icon name='search' class='searchIcon' scale='0.9'></icon>
       </div>
       <div class='events'>
-        <exp-event :key='index' v-for='(e,index) in events' :event='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && e.name.indexOf(filters.byName) === -1))'></exp-event>
+        <component :is='e.type' :key='index' v-for='(e,index) in events' :data='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && (e.name.indexOf(filters.byName) === -1 || e.type === "exp-update")))'></component>
       </div>
       <div class='eventGui bottom'>
           <exp-toggle @onSwitch='updateSessionFilter'></exp-toggle>
@@ -19,11 +21,14 @@
 </template>
 <script>
   import event from './event.vue'
+  import update from './update.vue'
   import toggle from './switch.vue'
   export default {
     data: () => ({
       events: [],
       name: '',
+      type: '',
+      isUpdate: false,
       properties: [],
       prop_model: { 'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' } },
       filters: {
@@ -40,6 +45,7 @@
     created () { },
     components: {
       'exp-event': event,
+      'exp-update': update,
       'exp-toggle': toggle
     },
     mounted () { },
@@ -47,8 +53,12 @@
       addEvent () {
         this.events.splice(0, 0, {
           name: this.name,
+          type: this.isUpdate ? 'exp-update' : 'exp-event',
           timeStamp: Date.now(),
-          properties: this.prop_model
+          value: this.prop_model,
+          error: {},
+          path: '/lol/1233213.jpg',
+          host: 'exponea.com'
         })
       },
       updateSessionFilter (value) {

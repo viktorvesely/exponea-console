@@ -1,8 +1,8 @@
 <template>
-    <div class='event eventBody'>
+    <div class='update eventBody'>
         <div @click='expand' class='clickZone'>
           <span class='circle' :style='circleStyle'></span>
-          <span class='name'>{{ data.name }}</span>
+          <span class='name'>update</span>
           <span class='timestamp'>{{ date }}</span>
         </div>
         <div class='properties' v-if='rolledOut'>
@@ -10,14 +10,12 @@
         </div>
     </div>
 </template>
-
 <script>
 import property from './property.vue'
 export default {
   props: ['data', 'size'],
   data: function () {
     return {
-      colors: ['yellow', 'red', 'blue', 'limegreen', 'black', 'fuchsia', 'orange'],
       rolledOut: false
     }
   },
@@ -26,11 +24,7 @@ export default {
   },
   computed: {
     circleStyle () {
-      var sum = 0
-      for (var i = 0; i < this.data.name.length; ++i) {
-        sum += this.data.name.charCodeAt(i)
-      }
-      var col = this.colors[sum % this.colors.length]
+      var col = 'Aqua'
       var ret = { 'box-shadow': '0 0 0 3px ' + col + ', 0 0 0 3px ' + col }
       return ret
     },

@@ -1,0 +1,48 @@
+.eventBody {
+  width: 100%;
+  font-size: 17px;
+  box-sizing: border-box;
+}
+.eventBody:nth-child(odd) {
+  background-color: #F8F7FD;
+}
+.eventBody:nth-child(even) {
+  background-color: #FFFFFF;
+}
+.clickZone {
+  cursor: pointer;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.clickZone * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none; 
+  -khtml-user-select: none; 
+  -ms-user-select: none; 
+}
+.properties {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+.timestamp {
+    color: #7477b0;
+    display: inline-block;
+}
+.name {
+    font-weight: bold;
+    width: 34.6%;
+    display: inline-block;
+}
+.circle {
+    position: relative;
+    bottom: 2px;
+    border-radius: 50%;
+    width: 5px;
+    height: 4px;
+    display: inline-block;
+    margin-right: 10px;
+}
