@@ -5,6 +5,7 @@
       <span> is update </span>
       <br>
       <button @click='addEvent'>Add Event</button>
+      <button @click='addDivider'>Add Divider</button>
       <hr>
       <div class='eventGui top'>
         <input type="text" class='filter' v-model='filters.byName' placeholder='Event filter..'>
@@ -22,7 +23,9 @@
 <script>
   import event from './event.vue'
   import update from './update.vue'
+  import divider from './divider.vue'
   import toggle from './switch.vue'
+  import Item from './timeLineItem.js'
   export default {
     data: () => ({
       events: [],
@@ -46,20 +49,16 @@
     components: {
       'exp-event': event,
       'exp-update': update,
+      'exp-divider': divider,
       'exp-toggle': toggle
     },
     mounted () { },
     methods: {
       addEvent () {
-        this.events.splice(0, 0, {
-          name: this.name,
-          type: this.isUpdate ? 'exp-update' : 'exp-event',
-          timeStamp: Date.now(),
-          value: this.prop_model,
-          error: {},
-          path: '/lol/1233213.jpg',
-          host: 'exponea.com'
-        })
+        this.events.splice(0, 0, Item(this.name, this.isUpdate ? 'exp-update' : 'exp-event', this.prop_model, '/lol/1233213.jpg', 'exponea.com', {}, Date.now()))
+      },
+      addDivider () {
+        this.events.splice(0, 0, Item(this.name, 'exp-divider', this.prop_model, '/lol/1233213.jpg', 'exponea.com', {}, Date.now()))
       },
       updateSessionFilter (value) {
         this.filters.showSessions = value

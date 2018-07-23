@@ -8,8 +8,8 @@ module.exports = {
   version: '0.0.1',
   icons: {
     '16': 'icons/16.png',
-    '38': 'icons/38.png',
-    '128': 'icons/128.png'
+    '48': 'icons/48_rounded.png',
+    '128': 'icons/128_rounded.png'
   },
   /**
    * @see {@link https://developer.chrome.com/extensions/declare_permissions}
@@ -30,7 +30,7 @@ module.exports = {
     default_popup: 'pages/popup.html',
     default_icon: {
       '16': 'icons/16.png',
-      '38': 'icons/38.png'
+      '48': 'icons/48_rounded.png'
     }
   },
   background: {
