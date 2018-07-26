@@ -16,7 +16,5 @@ export default {
     try {
       localStorage.removeItem(key)
     } catch (e) { throw e }
-  },
-  addItem (tabId)
-  __MAX_EVENTS_PER_TAB: 1000
+  }
 }

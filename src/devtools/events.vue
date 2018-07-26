@@ -45,7 +45,12 @@
         return !((this.filters.showSessions === false && this.sessionEventsNames.includes(name)) || (!this.filters.byName && name.indexOf(this.filters.byName) !== -1))
       }
     },
-    created () { },
+    created () {
+      window.timelineStorage.loadItems((items) => {
+        if (items === null) return
+        this.events.concat(items)
+      })
+    },
     components: {
       'exp-event': event,
       'exp-update': update,
@@ -55,13 +60,18 @@
     mounted () { },
     methods: {
       addEvent () {
-        this.events.splice(0, 0, Item(this.name, this.isUpdate ? 'exp-update' : 'exp-event', this.prop_model, '/lol/1233213.jpg', 'exponea.com', {}, Date.now()))
+        this.events.splice(0, 0, Item(this.name, this.isUpdate ? 'exp-update' : 'exp-event', this.prop_model, '/lol/1233213.jpg', window.devTab.URL.Host(), {}, Date.now()))
+        this.saveItem(this.events[0])
       },
       addDivider () {
-        this.events.splice(0, 0, Item(this.name, 'exp-divider', this.prop_model, '/lol/1233213.jpg', 'exponea.com', {}, Date.now()))
+        this.events.splice(0, 0, Item(this.name, 'exp-divider', this.prop_model, '/lol/1233213.jpg', window.devTab.URL.Host(), {}, Date.now()))
+        this.saveItem(this.events[0])
       },
       updateSessionFilter (value) {
         this.filters.showSessions = value
+      },
+      saveItem (item) {
+        window.timelineStorage.addItem(item)
       }
     }
   }
