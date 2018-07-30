@@ -5,9 +5,9 @@ Used for debugging purposes
 # Installation
 
 `
-cd myproject
-npm install
-npm run dev
+cd myproject<br/>
+npm install<br/>
+npm run dev<br/>
 `
 
 If it throws error 'npm is not recognized as ...' include the npm folder in __Environment Variables__
