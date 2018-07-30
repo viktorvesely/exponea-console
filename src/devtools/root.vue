@@ -2,7 +2,7 @@
     <div class="app">
       <ul>
         <li>
-          <exp-events></exp-events>
+          <exp-events ref='expEvents'></exp-events>
         </li>
       </ul> 
     </div>

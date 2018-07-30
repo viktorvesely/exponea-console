@@ -26,10 +26,10 @@ export default {
   },
   onTabInfoLoad (tab) {
     this.__currentTab = tab
-    var mostRecent = this.__getMostRecentStorageId()
+    var mostRecent = this.__getMostRecentStorageId(tab.URL.Host())
     var items = null
     if (mostRecent !== null) {
-      items = storage.get(this.__generateKey(this.__currentTab.URL.Host(), mostRecent))
+      items = storage.get(this.__mostRecentStorageKey(this.__currentTab.URL.Host(), mostRecent))
     }
     if (this.__shouldSort) {
       this.__sort(items)
@@ -39,30 +39,27 @@ export default {
     }
     this.__loadedItems = items
   },
-  setMostRecentStorage () {
-    var mostRecent = this.__getMostRecentStorageId()
-    if (mostRecent !== null) {
+  setMostRecentStorage (host) {
+    var mostRecent = this.__getMostRecentStorageId(host)
+    if (mostRecent !== null && mostRecent.toInteger() === this.__currentTab.id) {
       storage.remove(this.__generateKey(this.__currentTab.URL.Host(), mostRecent))
     }
-    storage.set(this.__mostRecentKey(), this.__currentTab.id.toString())
+    storage.set(this.__mostRecentKey(host), this.__currentTab.id.toString())
   },
-  __getMostRecentStorageId () {
-    return storage.get(this.__mostRecentKey())
+  __getMostRecentStorageId (host) {
+    return storage.get(this.__mostRecentKey(host))
   },
   __sort (items) {
     if (items === null || items.length < 2) return
     items.sort(this.__compare)
-  },
-  __wasLoaded () {
-    return this.__wasLoaded
   },
   __compare (a, b) {
     if (a.timeStamp < b.timeStamp) return -1
     if (a.timeStamp > b.timeStamp) return 1
     return 0
   },
-  __mostRecentKey () {
-    return 'exponea_most_recent_closed'
+  __mostRecentKey (host) {
+    return 'exponea_most_recent_closed:' + host
   },
   __generateKey (host, tabId) {
     return 'exponea_timeline_items:' + host + ':' + tabId.toString()
