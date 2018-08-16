@@ -1,7 +1,14 @@
 import itemTemplate from '../devtools/timeLineItem.js'
+import arrayBufferTo from './arrayBufferTo.js'
 
 const __ = chrome.i18n.getMessage
 console.log(__('background'))
+
+chrome.webRequest.onBeforeRequest.addListener((details) => {
+  if (details.method === 'POST') {
+    console.log(arrayBufferTo.toJSON(details.requestBody.raw[0].bytes))
+  }
+}, {urls: ['<all_urls>']}, ['requestBody'])
 
 var ports = { }
 
@@ -23,7 +30,7 @@ chrome.runtime.onConnect.addListener((port) => {
   })
   port.postMessage({
     type: 'addItems',
-    items: [itemTemplate('back-test', 'exp-event', {'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' }}, '/lol.jpg', 'exponea.com', {}, Date.now())]
+    items: [itemTemplate('back-test'), itemTemplate('back-test2')]
   })
 })
 
