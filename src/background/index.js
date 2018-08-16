@@ -23,7 +23,7 @@ chrome.runtime.onConnect.addListener((port) => {
   })
   port.postMessage({
     type: 'addItems',
-    items: [itemTemplate('back-test', 'event', {'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' }}, '/lol.jpg', 'exponea.com', {}, Date.now())]
+    items: [itemTemplate('back-test', 'exp-event', {'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' }}, '/lol.jpg', 'exponea.com', {}, Date.now())]
   })
 })
 
@@ -34,5 +34,5 @@ function trackItem (tabId, item) {
   })
 }
 window.addItem = function () {
-  trackItem(itemTemplate('back-test', 'event', {'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' }}, '/lol.jpg', 'exponea.com', {}, Date.now()))
+  trackItem(itemTemplate('back-test', 'exp-event', {'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' }}, '/lol.jpg', 'exponea.com', {}, Date.now()))
 }

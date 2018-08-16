@@ -21,7 +21,11 @@
     components: {
       'exp-events': events
     },
-    mounted () { },
+    mounted () {
+      this.$nextTick(() => {
+        window.onVueRendered()
+      })
+    },
     methods: { }
   }
 </script>
