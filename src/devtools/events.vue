@@ -1,18 +1,11 @@
 <template>
     <div class="eventPage"> 
-      <input type='text' v-model='name' placeholder='Name'> 
-      <input type='checkbox' v-model='isUpdate'>
-      <span> is update </span>
-      <br>
-      <button @click='addEvent'>Add Event</button>
-      <button @click='addDivider'>Add Divider</button>
-      <hr>
       <div class='eventGui top'>
         <input type="text" class='filter' v-model='filters.byName' placeholder='Event filter..'>
         <icon name='search' class='searchIcon' scale='0.9'></icon>
       </div>
       <div class='events'>
-        <component :is='e.type' :key='index' v-for='(e,index) in events' :data='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && (e.name.indexOf(filters.byName) === -1 || e.type === "exp-update")))'></component>
+        <component :is=' "exp-" + e.type' :key='index' v-for='(e,index) in events' :data='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && (e.name.indexOf(filters.byName) === -1 || e.type === "exp-update")))'></component>
       </div>
       <div class='eventGui bottom'>
           <exp-toggle @onSwitch='updateSessionFilter'></exp-toggle>

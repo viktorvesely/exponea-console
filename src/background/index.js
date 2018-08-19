@@ -2,15 +2,16 @@ import itemTemplate from '../devtools/timeLineItem.js'
 import arrayBufferTo from './arrayBufferTo.js'
 
 const __ = chrome.i18n.getMessage
+const reqFilters = ['*://api.exponea.com/*', '*://api.infinario.com/*']
+var ports = { }
+window.ids = {}
 console.log(__('background'))
 
 chrome.webRequest.onBeforeRequest.addListener((details) => {
-  if (details.method === 'POST') {
-    console.log(arrayBufferTo.toJSON(details.requestBody.raw[0].bytes))
+  var reqInfo = requestParser(details)
+  if (reqInfo.valid) {
   }
-}, {urls: ['<all_urls>']}, ['requestBody'])
-
-var ports = { }
+}, {urls: reqFilters}, ['requestBody'])
 
 chrome.runtime.onSuspend.addListener(() => {
   chrome.browserAction.setBadgeBackgroundColor({
@@ -34,12 +35,78 @@ chrome.runtime.onConnect.addListener((port) => {
   })
 })
 
-function trackItem (tabId, item) {
+window.onIdsUpdate = function (ids) {
+  window.ids = ids
+}
+
+window.addItem = function (name) {
+  trackItems(itemTemplate(name))
+}
+
+function updateIds (ids) {
+  let orLength = Object.keys(window.ids).length
+  let newLength = Object.keys(ids).length
+  let newIds = false
+  if (orLength === newLength) {
+    for (let key in window.ids) {
+      if (window.ids[key] !== ids[key]) {
+        newIds = true
+        break
+      }
+    }
+  } else {
+    newIds = true
+  }
+  if (newIds) {
+    window.onIdsUpdate(ids)
+  }
+}
+
+function processBasicCommand (command) {
+  let timeLineItem = null
+  let data = command.data
+  switch (command.name) {
+    case 'crm/events':
+      timeLineItem = itemTemplate(data.type, 'event', data.properties, data.properties.path ? data.properties.path : '', data.properties.location.match(new RegExp(/www\.(.+)?\//))[1], {}, data.timestamp)
+      break
+    default:
+      timeLineItem = -1
+  }
+  return timeLineItem
+}
+
+function requestParser (details) {
+  let reqInfo = {
+    valid: false,
+    items: [],
+    body: null
+  }
+  if (details && details.method === 'POST' && details.requestBody) {
+    let body = arrayBufferTo.toJSON(details.requestBody.raw[0].bytes)
+    reqInfo.body = body
+    if (/\/bulk$/.test(details.url)) {
+      console.log(body.commands)
+      updateIds(body.commands[0].data.customer_ids)
+      for (let i = 0; i < body.commands.length; ++i) {
+        let command = body.commands[i]
+        let item = processBasicCommand(command)
+        if (item === -1) {
+          console.warn('')
+        } else {
+          console.log(item)
+        }
+      }
+    } else {
+    }
+  } else {
+    console.warn('Last request did not have a body or was malformed')
+  }
+  return reqInfo
+}
+
+function trackItems (tabId, items) {
   ports[tabId]['devtools'].postMessage({
     type: 'addItems',
-    items: [item]
+    items: items
   })
-}
-window.addItem = function () {
-  trackItem(itemTemplate('back-test', 'exp-event', {'seconds': 22, 'brutal': 323.22323232323, 'name': 'daadad', 'tester': true, 'canihandleit': { 'dad': 5, 'string': 'hopi', 'stdaring': 'hopi', 'staaring': 'hopi', 'saatring': 'hopi', 'sntring': 'hopi' }}, '/lol.jpg', 'exponea.com', {}, Date.now()))
 }
