@@ -1,18 +1,11 @@
 <template>
     <div class="eventPage"> 
-      <input type='text' v-model='name' placeholder='Name'> 
-      <input type='checkbox' v-model='isUpdate'>
-      <span> is update </span>
-      <br>
-      <button @click='addEvent'>Add Event</button>
-      <button @click='addDivider'>Add Divider</button>
-      <hr>
       <div class='eventGui top'>
         <input type="text" class='filter' v-model='filters.byName' placeholder='Event filter..'>
         <icon name='search' class='searchIcon' scale='0.9'></icon>
       </div>
       <div class='events'>
-        <component :is='e.type' :key='index' v-for='(e,index) in events' :data='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && (e.name.indexOf(filters.byName) === -1 || e.type === "exp-update")))'></component>
+        <component :is=' "exp-" + e.type' :key='index' v-for='(e,index) in events' :data='e' :size='events.length' v-if='!((filters.showSessions === false && sessionEventsNames.includes(e.name)) || (!!filters.byName && (e.name.indexOf(filters.byName) === -1 || e.type === "exp-update")))'></component>
       </div>
       <div class='eventGui bottom'>
           <exp-toggle @onSwitch='updateSessionFilter'></exp-toggle>
@@ -25,7 +18,7 @@
   import update from './update.vue'
   import divider from './divider.vue'
   import toggle from './switch.vue'
-  import Item from './timeLineItem.js'
+
   export default {
     data: () => ({
       events: [],
@@ -40,17 +33,8 @@
       },
       sessionEventsNames: ['session_ping']
     }),
-    computed: {
-      shouldShow (name) {
-        return !((this.filters.showSessions === false && this.sessionEventsNames.includes(name)) || (!this.filters.byName && name.indexOf(this.filters.byName) !== -1))
-      }
-    },
-    created () {
-      window.timelineStorage.loadItems((items) => {
-        if (items === null) return
-        this.events.concat(items)
-      })
-    },
+    computed: { },
+    created () { },
     components: {
       'exp-event': event,
       'exp-update': update,
@@ -59,19 +43,11 @@
     },
     mounted () { },
     methods: {
-      addEvent () {
-        this.events.splice(0, 0, Item(this.name, this.isUpdate ? 'exp-update' : 'exp-event', this.prop_model, '/lol/1233213.jpg', window.devTab.URL.Host(), {}, Date.now()))
-        this.saveItem(this.events[0])
-      },
-      addDivider () {
-        this.events.splice(0, 0, Item(this.name, 'exp-divider', this.prop_model, '/lol/1233213.jpg', window.devTab.URL.Host(), {}, Date.now()))
-        this.saveItem(this.events[0])
+      addItems (items) {
+        this.events = items.concat(this.events)
       },
       updateSessionFilter (value) {
         this.filters.showSessions = value
-      },
-      saveItem (item) {
-        window.timelineStorage.addItem(item)
       }
     }
   }

@@ -2,7 +2,7 @@
     <div class="app">
       <ul>
         <li>
-          <exp-events></exp-events>
+          <exp-events ref='expEvents'></exp-events>
         </li>
       </ul> 
     </div>
@@ -21,7 +21,11 @@
     components: {
       'exp-events': events
     },
-    mounted () { },
+    mounted () {
+      this.$nextTick(() => {
+        window.onVueRendered()
+      })
+    },
     methods: { }
   }
 </script>
