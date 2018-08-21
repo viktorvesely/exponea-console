@@ -18,7 +18,6 @@
   import update from './update.vue'
   import divider from './divider.vue'
   import toggle from './switch.vue'
-  import Item from './timeLineItem.js'
 
   export default {
     data: () => ({
@@ -34,11 +33,7 @@
       },
       sessionEventsNames: ['session_ping']
     }),
-    computed: {
-      shouldShow (name) {
-        return !((this.filters.showSessions === false && this.sessionEventsNames.includes(name)) || (!this.filters.byName && name.indexOf(this.filters.byName) !== -1))
-      }
-    },
+    computed: { },
     created () { },
     components: {
       'exp-event': event,
@@ -50,12 +45,6 @@
     methods: {
       addItems (items) {
         this.events = items.concat(this.events)
-      },
-      addEvent () {
-        this.events.splice(0, 0, Item(this.name, this.isUpdate ? 'exp-update' : 'exp-event', this.prop_model, '/lol/1233213.jpg', window.devTab.URL.Host(), {}, Date.now()))
-      },
-      addDivider () {
-        this.events.splice(0, 0, Item(this.name, 'exp-divider', this.prop_model, '/lol/1233213.jpg', window.devTab.URL.Host(), {}, Date.now()))
       },
       updateSessionFilter (value) {
         this.filters.showSessions = value
