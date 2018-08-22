@@ -38,14 +38,14 @@ window.findRefVue = function (name, vue) {
 }
 
 // set up comunication
-function openPort (port) {
-  port = chrome.runtime.connect({
+function openPort () {
+  window.port = chrome.runtime.connect({
     name: 'devtools' + ':' + chrome.devtools.inspectedWindow.tabId
   })
-  port.onMessage.addListener((msg) => {
+  window.port.onMessage.addListener((msg) => {
     MsgHandler[msg.type](msg, window.rootVue)
   })
-  port.postMessage({
+  window.port.postMessage({
     source: 'devtools',
     type: 'init'
   })
