@@ -45,7 +45,7 @@ module.exports = {
       'js/vendor.js',
       'js/content.js'
     ],
-    run_at: 'document_start',
+    run_at: 'document_end',
     matches: ['<all_urls>'],
     all_frames: true
   }],
