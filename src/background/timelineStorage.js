@@ -1,53 +1,34 @@
 import storage from '../ext/storage.js'
 
 export default {
-  addItem (item) {
-    var items = storage.get(this.__generateKey(item.host, this.__currentTab.id))
+  addItem (item, host, id) {
+    var items = storage.get(this.__generateKey(host, id))
     if (items === null) {
       items = []
     } else if (items.length >= this.__MAX_ITEMS_PER_PAGE) {
       items.pop()
     }
     items.splice(0, 0, item)
-    storage.set(this.__generateKey(item.host, this.__currentTab.id), items)
+    storage.set(this.__generateKey(host, id), items)
   },
-  loadItems (callback, sort = false) {
-    this.__shouldSort = sort
-    this.__onLoaded = callback
-    if (this.__loadedItems !== null) {
-      if (this.__shouldSort) {
-        this.__sort(this.__loadedItems)
-      }
-      this.__onLoaded(this.__loadedItems)
+  loadItems (host, tabId, sort = false) {
+    var recentItems = storage.get(this.__mostRecentKey(host))
+    if (recentItems === null) {
+      recentItems = []
     }
-  },
-  deleteItemsByHost (host) {
-    storage.remove(this.__generateKey(host))
-  },
-  onTabInfoLoad (tab) {
-    this.__currentTab = tab
-    var mostRecent = this.__getMostRecentStorageId(tab.URL.Host())
-    var items = null
-    if (mostRecent !== null) {
-      items = storage.get(this.__mostRecentStorageKey(this.__currentTab.URL.Host(), mostRecent))
+    var tabItems = storage.get(this.__generateKey(host, tabId))
+    if (tabItems === null) {
+      tabItems = []
     }
-    if (this.__shouldSort) {
+    var items = tabItems.concat(recentItems)
+    if (sort) {
       this.__sort(items)
     }
-    if (this.__onLoaded !== null) {
-      this.__onLoaded(items)
-    }
-    this.__loadedItems = items
+    return items
   },
-  setMostRecentStorage (host) {
-    var mostRecent = this.__getMostRecentStorageId(host)
-    if (mostRecent !== null && mostRecent.toInteger() === this.__currentTab.id) {
-      storage.remove(this.__generateKey(this.__currentTab.URL.Host(), mostRecent))
-    }
-    storage.set(this.__mostRecentKey(host), this.__currentTab.id.toString())
-  },
-  __getMostRecentStorageId (host) {
-    return storage.get(this.__mostRecentKey(host))
+  setMostRecentStorage (host, currentId) {
+    storage.set(this.__mostRecentKey(host), storage.get(this.__generateKey(host, currentId)))
+    storage.remove(this.__generateKey(host, currentId))
   },
   __sort (items) {
     if (items === null || items.length < 2) return
@@ -64,10 +45,6 @@ export default {
   __generateKey (host, tabId) {
     return 'exponea_timeline_items:' + host + ':' + tabId.toString()
   },
-  __shouldSort: false,
-  __loadedItems: null,
-  __currentTab: null,
-  __onLoaded: null,
   __loaded: false,
   __MAX_ITEMS_PER_PAGE: 1000
 }
