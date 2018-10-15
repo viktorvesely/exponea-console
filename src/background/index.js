@@ -46,12 +46,32 @@ chrome.runtime.onConnect.addListener((port) => {
   if (ports[tabId] === undefined) {
     ports[tabId] = {}
   }
-  port.onMessage.addListener((msg) => {
-    ports[tabId][name] = port
+  ports[tabId][name] = port
+  port.onMessage.addListener((msg, sender, response) => {
+    switch (msg.type) {
+      case 'init':
+        if (msg.source === 'devtools') {
+        }
+        break
+      case 'error':
+        console.log(msg.error)
+        break
+    }
   })
   port.onDisconnect.addListener(() => {
     delete ports[tabId][name]
   })
+})
+
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+  switch (msg.type) {
+    case 'id':
+      response({id: sender.tab.id})
+      break
+    default:
+      response('unknown msg type')
+      break
+  }
 })
 
 window.onIdsUpdate = function (ids) {
